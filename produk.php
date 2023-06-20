@@ -33,6 +33,14 @@
                 <a class="nav-link" href="#">Kontak</a>
                 </li>
             </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <button class="nav-link btn btn-warning" type="button" onclick="location.href='#'">Login</button>
+                </li>
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link" href="#">Daftar</a>
+                </li>
+            </ul>
         </div>
 
        

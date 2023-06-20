@@ -32,6 +32,14 @@
                 <a class="nav-link" href="#">Kontak</a>
                 </li>
             </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <button class="nav-link btn btn-warning" type="button" onclick="location.href='#'">Login</button>
+                </li>
+                <li class="nav-item" style="margin-left: 10px;">
+                    <a class="nav-link" href="#">Daftar</a>
+                </li>
+            </ul>
         </div>
     </nav>
 
@@ -82,13 +90,13 @@
         .wrapper {
             min-height: 100%;
             position: relative;
-            padding-bottom: 100px; /* Sesuaikan tinggi footer */
+            padding-bottom: 100px; 
         }
         footer {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 60px; /* Sesuaikan tinggi footer */
+            height: 60px; 
         }
     </style>
 <footer class="bg-primary py-3">
