@@ -47,10 +47,10 @@
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                      <ul class="navbar-nav">
                         <li class="nav-item">
-                           <button class="nav-link btn btn-warning" type="button" onclick="location.href='#'">Login</button>
+                           <button class="nav-link btn btn-warning" type="button" onclick="location.href='login.php'">Login</button>
                         </li>
                         <li class="nav-item" style="margin-left: 10px;">
-                           <a class="nav-link" href="#">Daftar</a>
+                           <a class="nav-link" href="register.php">Daftar</a>
                         </li>
                   </ul>
                   </div>

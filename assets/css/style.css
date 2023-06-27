@@ -11,7 +11,11 @@ body {
 }
 
 .layout_padding {
-  padding: 70px 0;
+  padding: 50px 0;
+}
+
+.layout_paddings {
+  padding: 5px 0;
 }
 
 .layout_padding2 {
@@ -168,7 +172,7 @@ a:focus {
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
-  color: #f7444e;
+  color: #f9e00f;
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link svg, .custom_nav-container .navbar-nav .nav-item.active .nav-link svg {
@@ -520,8 +524,8 @@ a:focus {
 }
 
 .product_section .btn-box a:hover {
-  background-color: transparent;
-  color: #f7444e;
+  background-color: #f9e00f;
+  color: #000000;
 }
 
 .product_section .pagination-box a {
@@ -1078,6 +1082,7 @@ div.form_sub .field input[type="email"], div.form_sub .field input[type="email"]
 form input {
     background: #fff;
     border: solid #ccc 1px;
+    border-radius: 10px;
     padding: 15px 15px;
     width: 100%;
     font-size: 14px;
@@ -1099,7 +1104,7 @@ form textarea {
 }
 
 form input[type="submit"] {
-    border: none;
+    border: 2px solid  #495d86;
     padding: 15px 45px;
     width: auto;
     font-size: 16px;
@@ -1107,16 +1112,22 @@ form input[type="submit"] {
     line-height: normal;
     margin: 0 auto;
     display: flex;
-    background: #333;
-    color: #fff;
+    background: #fff;
+    color: #495d86;
     font-weight: 600;
     transition: ease all 0.1s;
 }
 
 form input[type="submit"]:hover,
 form input[type="submit"]:focus {
-    background: #f7444e;
-    color: #fff;
+    background: #f9e00f;
+    
+    color: #000000;
+}
+
+form input[type="checkbox"] {
+  display: inline-block;
+  width: auto;
 }
 
 /** cpy **/
