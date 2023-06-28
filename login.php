@@ -26,7 +26,7 @@
 <body class="sub_page">
     <div class="hero_area">
         <!-- header section strats -->
-        <header class="header_section">
+        <!-- <header class="header_section">
             <div class="container">
                 <nav class="navbar navbar-expand-lg custom_nav-container ">
                     <a class="navbar-brand" href="index.php"><img width="50" src="assets/img/LOGO.png" alt="#" /></a>
@@ -58,7 +58,7 @@
                     </div>
                 </nav>
             </div>
-        </header>
+        </header> -->
         <!-- end header section -->
     </div>
     <!-- inner page section -->
@@ -68,7 +68,7 @@
                 <div class="col-md-12">
                     <div class="full">
                         <!-- <h3>Contact us</h3> -->
-                        <img src="assets/img/LOGO.png" alt="Logo MI" style="width:70px;">
+                        <a href="index.php"><img src="assets/img/LOGO.png" alt="Logo MI" style="width:70px;"></a>
                     </div>
                 </div>
             </div>
@@ -85,16 +85,15 @@
                         <form action="">
                             <fieldset>
                                 <label><b>Username Or Email Address</b></label>
-                                <input type="text" placeholder="" name="username" required />
+                                <input type="text" name="username" required />
                                 <label><b>Password</b></label>
-                                <input type="password" placeholder="" name="password" required />
+                                <input type="password" name="password" required />
                                 <label><input type="checkbox" name="rememberme"/>Remember Me</label>
                                 <!-- <input type="submit" value="Login" /> -->
-                                <div class="row">
-                                <div class="col-lg-6">
                                 <input type="submit" value="Login" /></div>
-                                <div class="col-lg-6"> <a href="">Lost Your Password?</a></div>
-                                </div>
+                                <span style="font-size: 16px;"><br>
+                                <center>Belum Punya Akun? <a href="register.php">Daftar</a>
+                            <center></span>
                             </fieldset>
                         </form>
                     </div>
@@ -104,11 +103,11 @@
     </section>
     <!-- end why section -->
     <!-- footer end -->
-    <div class="cpy_ fixed-bottom">
+    <!-- <div class="cpy_ ">
         <p class="mx-auto">
             Copyright © All Rights Reserved
         </p>
-    </div>
+    </div> -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

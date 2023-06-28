@@ -1,47 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman Produk</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="assets/img/LOGO.png">
+    <!-- Basic -->
+    <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <!-- Mobile Metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <!-- Site Metas -->
+      <meta name="keywords" content="" />
+      <meta name="description" content="" />
+      <meta name="author" content="" />
+      <title>Produk</title>
+      <!-- bootstrap core css -->
+      <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css" />
+      <!-- font awesome style -->
+      <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+      <!-- Custom styles for this template -->
+      <link href="assets/css/style.css" rel="stylesheet" />
+      <!-- responsive style -->
+      <link href="assets/css/responsive.css" rel="stylesheet" />
+      <link rel="shortcut icon" href="assets/img/LOGO.png">
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary py-3">
-      <a class="navbar-brand" href="#">
-        <img src="assets/img/LOGO.png" alt="Logo" width="28" height="33">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item active">
-                <a class="nav-link" href="#">Beranda</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="produk.php">Produk</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Tentang Kami</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">Kontak</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <button class="nav-link btn btn-warning" type="button" onclick="location.href='#'">Login</button>
-                </li>
-                <li class="nav-item" style="margin-left: 10px;">
-                    <a class="nav-link" href="#">Daftar</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <header class="header_section">
+            <div class="container">
+               <nav class="navbar navbar-expand-lg custom_nav-container "> 
+                  <a class="navbar-brand" href="index.php"><img width="50" src="assets/img/LOGO.png" alt="#" /></a>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class=""> </span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                           <a class="nav-link" href="index.php">Beranda</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="produk.php">Produk</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="index.php">Tentang Kami</a>
+                        </li>
+                     </ul>
+                  </div>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                           <button class="nav-link btn btn-warning" type="button" onclick="location.href='login.php'">Login</button>
+                        </li>
+                        <li class="nav-item" style="margin-left: 10px;">
+                           <a class="nav-link" href="register.php">Daftar</a>
+                        </li>
+                  </ul>
+                  </div>
+               </nav>
+            </div>
+         </header>
 
 <section id="product-details">
   <div class="container w-100%">
@@ -69,6 +82,7 @@
     if ($id !== null && array_key_exists($id, $products)) {
       $product = $products[$id];
       
+      echo '<div class="product-details" style="margin-top: 30px;">'; // Menyisipkan styling di dalam div
       echo '<h3>' . $product["name"] . '</h3>';
       echo '<div class="product-image">';
       echo '<img src="' . $product["image"] . '" alt="Product Image">';
@@ -83,7 +97,7 @@
 </section>
 
 <!-- styling footer -->
-<style>
+<!-- <style>
         html, body {
             height: 100%;
         }
@@ -107,7 +121,32 @@
       </div>
     </div>
   </div>
-</footer>
+</footer> -->
+
+<style>
+        html, body {
+            height: 100%;
+        }
+        .wrapper {
+            min-height: 100%;
+            position: relative;
+            padding-bottom: 100px; 
+        }
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px; 
+        }
+    </style>
+
+<!-- Footer -->
+      <footer class="cpy_">
+         <p class="mx-auto">
+            Copyright © All Rights Reserved
+         </p>
+      </footer>
+<!-- End Footer -->
 
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
