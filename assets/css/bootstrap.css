@@ -1534,7 +1534,7 @@ pre code {
 
 .table-bordered thead th,
 .table-bordered thead td {
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
 }
 
 .table-borderless th,
@@ -1717,7 +1717,7 @@ pre code {
 .table-dark td,
 .table-dark thead th,
 .table-dark tbody + tbody {
-  border-color: #95999c;
+  border-color: #ffff;
 }
 
 .table-hover .table-dark:hover {
@@ -1732,16 +1732,16 @@ pre code {
 .table-active,
 .table-active > th,
 .table-active > td {
-  background-color: rgba(0, 0, 0, 0.075);
+  background-color: #ffff;
 }
 
 .table-hover .table-active:hover {
-  background-color: rgba(0, 0, 0, 0.075);
+  background-color: #ffff;
 }
 
 .table-hover .table-active:hover > td,
 .table-hover .table-active:hover > th {
-  background-color: rgba(0, 0, 0, 0.075);
+  background-color: #ffff;
 }
 
 .table .thead-dark th {
@@ -1757,8 +1757,8 @@ pre code {
 }
 
 .table-dark {
-  color: #fff;
-  background-color: #343a40;
+  color: #000;
+  background-color: #ffff;
 }
 
 .table-dark th,
@@ -1772,12 +1772,12 @@ pre code {
 }
 
 .table-dark.table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #ffff;
 }
 
 .table-dark.table-hover tbody tr:hover {
   color: #fff;
-  background-color: rgba(255, 255, 255, 0.075);
+  background-color: #ffff;
 }
 
 @media (max-width: 575.98px) {
