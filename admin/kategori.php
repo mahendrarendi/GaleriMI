@@ -66,30 +66,45 @@
       <!-- Slide Bar End -->
 
    <!--Produk -->
-   <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
-    <div class="mb-3 text-right">
-        <a href="tambah_kategori.php" class="btn btn-primary">Tambah Data</a>
-    </div>
-   <table class="table table-striped table-bordered">
-   <thead>
-    <tr>
-      <th scope="col">NO</th>
-      <th scope="col">Nama Kategori</th>
-      <th scope="col">Aksi</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mango</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
-</div>
+            <!--Produk -->
+        <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
+            <div class="mb-3 text-right">
+                <a href="tambah_kategori.php" class="btn btn-primary">Tambah Data</a>
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">NO</th>
+                        <th scope="col">Nama Kategori</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    include("../database/config.php");
 
-         </div>
-         </main>
+                    $query = "SELECT * FROM categories";
+                    $result = mysqli_query($conn, $query);
+
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        $count = 1;
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo '<tr>';
+                            echo '<th scope="row">' . $count . '</th>';
+                            echo '<td>' . $row['name'] . '</td>';
+                            echo '<td></td>';
+                            echo '</tr>';
+                            $count++;
+                        }
+                    } else {
+                        echo '<tr><td colspan="3">Tidak ada data kategori.</td></tr>';
+                    }
+
+                    mysqli_close($conn);
+                    ?>
+                </tbody>
+            </table>
+        </main>
       </div>
    </div>
    <!-- Produk End -->

@@ -1,3 +1,33 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama = $_POST["nama"];
+    $nim = $_POST["nim"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    include("database/config.php");
+
+    // Upload dan simpan foto
+    $fotoName = $_FILES['foto']['name'];
+    $fotoData = addslashes(file_get_contents($_FILES['foto']['tmp_name']));
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = "INSERT INTO users (nama, nim, email, password, foto_name, foto_data) VALUES ('$nama', '$nim', '$email', '$hashedPassword', '$fotoName', '$fotoData')";
+
+    if (mysqli_query($conn, $query)) {
+        header("Location: login.php");
+        exit();
+    } else {
+        $registerError = "Terjadi kesalahan. Mohon coba lagi.";
+    }
+
+    mysqli_close($conn);
+}
+?>
+<!-- ... Rest of the HTML for register page ... -->
+
+
 <!DOCTYPE html>
 <html>
 
@@ -82,7 +112,7 @@
                 <div class="col-lg-4 offset-lg-4">
                     <h3 class="text-center"><b>Register</b></h3>
                     <div class="full">
-                        <form action="">
+                        <form action="register.php" method="POST" enctype="multipart/form-data">
                             <fieldset>
                                 <label><b>Upload Foto</b></label>
                                 <input type="file" name="foto" required />

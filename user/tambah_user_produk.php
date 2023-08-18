@@ -1,3 +1,42 @@
+<?php
+session_start();
+
+// Cek apakah pengguna sudah login
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['nama'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include("database/config.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Ambil data dari form
+    $nama_produk = $_POST["nama_produk"];
+    $link_produk = $_POST["link_produk"];
+    $kategori_produk = $_POST["kategori_produk"];
+    $deskripsi_produk = $_POST["deskripsi_produk"];
+    $foto_produk = $_POST["foto_produk"];
+
+    // Lakukan validasi data jika diperlukan
+    // ...
+
+    // Query INSERT ke dalam database
+    $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, deskripsi_produk, foto_produk) VALUES ('$nama_produk', '$link_produk', '$kategori_produk', '$deskripsi_produk','$foto_produk')";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        // Jika berhasil, redirect ke halaman dashboard
+        header("Location: dashboard_user.php");
+        exit();
+    } else {
+        // Jika gagal, tampilkan pesan error
+        $uploadError = "Terjadi kesalahan saat mengunggah produk.";
+    }
+
+    mysqli_close($conn);
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -27,25 +66,29 @@
    <div class="hero_area">
       <!-- header section strats -->
       <header class="header_section">
-         <div class="container">
-            <nav class="navbar navbar-expand-lg custom_nav-container ">
-               <a class="navbar-brand" href="index.php"><img width="50" src="../assets/img/LOGO.png" alt="#" /></a>
-               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class=""> </span>
-               </button>
-               <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav">
-                     <li class="nav-item">
-                     <i class="fa fa-search fa-lg"></i> 
-                     </li>
-                     <li class="nav-item" style="margin-left: 10px;">
-                     <i class="fa fa-user fa-lg"></i> 
-                     </li>
-                  </ul>
-               </div>
-            </nav>
-         </div>
-      </header>
+            <div class="container">
+               <nav class="navbar navbar-expand-lg custom_nav-container ">
+                  <a class="navbar-brand" href="index.php"><img width="50" src="../assets/img/LOGO.png" alt="#" /></a>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                     <span> </span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                     <ul class="navbar-nav">
+                        <li class="nav-item" style="margin-left: 10px;">
+                        <?php
+                           session_start();
+                           if (isset($_SESSION['user_id']) && isset($_SESSION['nama'])) {
+                              echo '<i class="fa fa-user fa-lg"></i> Selamat datang, ' . $_SESSION['nama'];
+                           } else {
+                              echo '<i class="fa fa-exclamation-triangle fa-lg"></i> Tidak ada informasi login';
+                           }
+                        ?>
+                        </li>
+                     </ul>
+                  </div>
+               </nav>
+            </div>
+         </header>
       <!-- end header section -->
 
       <!-- Slide Bar -->

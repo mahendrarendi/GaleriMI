@@ -1,3 +1,25 @@
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama_kategori = $_POST["name"];
+
+    include("../database/config.php");
+
+    $query = "INSERT INTO categories (name) VALUES ('$nama_kategori')";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        header("Location: kategori.php");
+        exit();
+    } else {
+        $error = "Gagal menambahkan kategori.";
+    }
+
+    mysqli_close($conn);
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -76,13 +98,12 @@
             <div class="row">
                 <div class="col-lg-4 offset-lg-4">
                     <div class="full">
-                        <form action="">
+                        <form action="" method="POST">
                             <fieldset>
                                 <br>
                                 <label><b>Nama Kategori</b></label>
                                 <input type="text" name="nama_kategori" required />
-                                <input type="submit" value="Unggah" /></div>
-                                <span style="font-size: 16px;"><br></span>
+                                <input type="submit" value="Unggah" />
                             </fieldset>
                         </form>
                     </div>

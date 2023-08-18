@@ -58,7 +58,7 @@
                   <div class="collapse" id="menu1" data-parent="#sidebar">
                      <a href="produk.php" class="list-group-item">Data Produk</a>
                      <a href="pengguna.php" class="list-group-item">Data Pengguna</a>
-                     <a href="#" class="list-group-item">Data Kategori</a>
+                     <a href="kategori.php" class="list-group-item">Data Kategori</a>
                   </div>
                   <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
         </div>
