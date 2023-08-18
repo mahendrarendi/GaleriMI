@@ -11,7 +11,7 @@
    <meta name="keywords" content="" />
    <meta name="description" content="" />
    <meta name="author" content="" />
-   <title>Dashboard Admin</title>
+   <title>ProduK User</title>
    <!-- bootstrap core css -->
    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
    <!-- font awesome style -->
@@ -36,10 +36,10 @@
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav">
                      <li class="nav-item">
-                        <i class="fa fa-search fa-lg"></i>
+                     <i class="fa fa-search fa-lg"></i> 
                      </li>
                      <li class="nav-item" style="margin-left: 10px;">
-                        <i class="fa fa-user fa-lg"></i>
+                     <i class="fa fa-user fa-lg"></i> 
                      </li>
                   </ul>
                </div>
@@ -48,74 +48,65 @@
       </header>
       <!-- end header section -->
 
-
-      <div class="container-fluid">
+      <!-- Slide Bar -->
+    <div class="container-fluid">
          <div class="row d-flex d-md-block flex-nowrap wrapper">
-            <div class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+            <div class="col-md-2 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
                <div class="list-group border-0 text-center text-md-left">
-                  <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Dashboard</span></a>
+                  <a href="dashboard.php" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Dashboard</span></a>
                   <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-gear"></i> <span class="d-none d-md-inline">Data Master</span> </a>
                   <div class="collapse" id="menu1" data-parent="#sidebar">
-                     <a href="#" class="list-group-item">Data Produk</a>
-                     <a href="#" class="list-group-item">Data Pengguna</a>
+                     <a href="produk.php" class="list-group-item">Data Produk</a>
+                     <a href="pengguna.php" class="list-group-item">Data Pengguna</a>
                      <a href="#" class="list-group-item">Data Kategori</a>
                   </div>
                   <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
-               </div>
-            </div>
-            <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
-               <div class="row">
-                  <div class="col-md-12">
-                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <div class="breadcome-list">
-                              <div class="row">
-                                 <div class="col-md-4"><i class="fa fa-users fa-4x ml-4"></i>
-                                    <div class="col-md-6 mt-2">
-                                       <p><b>Pengguna</b></p>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6 text-center">
-                                    <h1 style="font-size:80px;"><b>7</b></h1>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <div class="breadcome-list">
-                              <div class="row">
-                                 <div class="col-md-4"><i class="fa fa-cubes fa-4x ml-4"></i>
-                                    <div class="col-md-6 mt-2 ml-3">
-                                       <p><b>Produk</b></p>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6 text-center">
-                                    <h1 style="font-size:80px;"><b>10</b></h1>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <div class="breadcome-list">
-                              <div class="row">
-                                 <div class="col-md-4"><i class="fa fa-th-list fa-4x ml-4"></i>
-                                    <div class="col-md-6 mt-2">
-                                       <p><b>Category</b></p>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6 text-center">
-                                    <h1 style="font-size:80px;"><b>3</b></h1>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+        </div>
+    </div>
+      <!-- Slide Bar End -->
+
+   <!--Produk -->
+   <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
+    <div class="mb-3 text-right">
+        <a href="tambah_produk.php" class="btn btn-primary">Tambah Data</a>
+    </div>
+    <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+               <th scope="col">NO</th>
+               <th scope="col">Nama Produk</th>
+               <th scope="col">Foto Produk</th>
+               <th scope="col">Link Produk</th>
+               <th scope="col">Deskripsi Produk</th>
+               <th scope="col">Aksi</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <th scope="row">1</th>
+               <td>Mango</td>
+               <td><center><i class="fa fa-image"></i></center></td>
+               <td>https//github.com</td>
+               <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
+               <td></td>
+            </tr>
+            <tr>
+               <th scope="row">2</th>
+               <td>Mango</td>
+               <td><center><i class="fa fa-image"></i></center></td>
+               <td>https//github.com</td>
+               <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
+               <td></td>
+            </tr>
+         </tbody>
+         </table>
+</div>
+
          </div>
          </main>
       </div>
    </div>
+   <!-- Produk End -->
 
    <!-- footer start -->
    <div class="cpy_">

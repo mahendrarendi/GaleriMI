@@ -49,56 +49,47 @@
       <!-- end header section -->
 
       <!-- Slide Bar -->
-      <div class="container-fluid">
+    <div class="container-fluid">
          <div class="row d-flex d-md-block flex-nowrap wrapper">
             <div class="col-md-2 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
                <div class="list-group border-0 text-center text-md-left">
-                  <a href="dashboard_user.php" class="list-group-item d-inline-block collapsed">
-                     <i class="fa fa-gear"></i> <span class="d-none d-md-inline">Manajemen Produk</span>
-                  </a>
+                  <a href="dashboard.php" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Dashboard</span></a>
+                  <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-gear"></i> <span class="d-none d-md-inline">Data Master</span> </a>
+                  <div class="collapse" id="menu1" data-parent="#sidebar">
+                     <a href="produk.php" class="list-group-item">Data Produk</a>
+                     <a href="pengguna.php" class="list-group-item">Data Pengguna</a>
+                     <a href="#" class="list-group-item">Data Kategori</a>
+                  </div>
                   <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
-               </div>
-            </div>
+        </div>
+    </div>
+            <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
+                <div class="page-header text-center">
+                <img width="50" src="../assets/img/LOGO.png" alt="#" />
+                </div>
+            </main>
       <!-- Slide Bar End -->
 
-      <!--Produk -->
-         <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
-            <div class="mb-3 text-right">
-               <a href="tambah_user_produk.php" class="btn btn-primary">Tambah Data</a>
+   <!-- Upload Produk -->
+   <section class="why_section layout_paddings">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <div class="full">
+                        <form action="">
+                            <fieldset>
+                                <br>
+                                <label><b>Nama Kategori</b></label>
+                                <input type="text" name="nama_kategori" required />
+                                <input type="submit" value="Unggah" /></div>
+                                <span style="font-size: 16px;"><br></span>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <table class="table table-striped table-bordered">
-            <thead>
-               <tr>
-                  <th scope="col">NO</th>
-                  <th scope="col">Nama Produk</th>
-                  <th scope="col">Foto Produk</th>
-                  <th scope="col">Link Produk</th>
-                  <th scope="col">Deskripsi Produk</th>
-                  <th scope="col">Aksi</th>
-               </tr>
-            </thead>
-
-            <tbody>
-               <tr>
-                  <th scope="row">1</th>
-                  <td>Mango</td>
-                  <td><center><i class="fa fa-image"></i></center></td>
-                  <td>https//github.com</td>
-                  <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-                  <td></td>
-               </tr>
-               <tr>
-                  <th scope="row">2</th>
-                  <td>Mango</td>
-                  <td><center><i class="fa fa-image"></i></center></td>
-                  <td>https//github.com</td>
-                  <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-                  <td></td>
-               </tr>
-            </tbody>
-         </table>
-         </div>
-
+        </div>
+      </section>
          </div>
          </main>
       </div>

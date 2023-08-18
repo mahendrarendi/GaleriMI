@@ -11,7 +11,7 @@
    <meta name="keywords" content="" />
    <meta name="description" content="" />
    <meta name="author" content="" />
-   <title>ProduK User</title>
+   <title>Dashboard User</title>
    <!-- bootstrap core css -->
    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
    <!-- font awesome style -->
@@ -53,57 +53,51 @@
          <div class="row d-flex d-md-block flex-nowrap wrapper">
             <div class="col-md-2 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
                <div class="list-group border-0 text-center text-md-left">
-                  <a href="dashboard_user.php" class="list-group-item d-inline-block collapsed">
-                     <i class="fa fa-gear"></i> <span class="d-none d-md-inline">Manajemen Produk</span>
-                  </a>
-                  <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
+               <a href="dashboard_user.php" class="list-group-item d-inline-block collapsed">
+                  <i class="fa fa-gear"></i> <span class="d-none d-md-inline">Manajemen Produk</span>
+               </a>
+               <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
                </div>
             </div>
-      <!-- Slide Bar End -->
+            <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
+               <div class="page-header text-center">
+               <img width="50" src="../assets/img/LOGO.png" alt="#" />
+               </div>
+            </main>
+         <!-- Slide Bar end -->
 
-      <!--Produk -->
-         <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
-            <div class="mb-3 text-right">
-               <a href="tambah_user_produk.php" class="btn btn-primary">Tambah Data</a>
+   <!-- Upload Produk -->
+    <section class="why_section layout_paddings">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <div class="full">
+                        <form action="">
+                            <fieldset>
+                                <label><b>Nama Produk</b></label>
+                                <input type="text" name="nama_produk" required />
+                                <label><b>Foto Produk</b></label>
+                                <input type="file" name="foto_produk" required />
+                                <label><b>Link Produk</b></label>
+                                <input type="text" name="link_produk" required />
+                                <label><b>Kategori Produk</b></label>
+                                <input type="select" name="link_produk" required />
+                                <label><b>Deskripsi Produk</b></label>
+                                <input type="text" name="deskripsi_produk" required />
+                                <input type="submit" value="Unggah" /></div>
+                                <span style="font-size: 16px;"><br></span>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <table class="table table-striped table-bordered">
-            <thead>
-               <tr>
-                  <th scope="col">NO</th>
-                  <th scope="col">Nama Produk</th>
-                  <th scope="col">Foto Produk</th>
-                  <th scope="col">Link Produk</th>
-                  <th scope="col">Deskripsi Produk</th>
-                  <th scope="col">Aksi</th>
-               </tr>
-            </thead>
-
-            <tbody>
-               <tr>
-                  <th scope="row">1</th>
-                  <td>Mango</td>
-                  <td><center><i class="fa fa-image"></i></center></td>
-                  <td>https//github.com</td>
-                  <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-                  <td></td>
-               </tr>
-               <tr>
-                  <th scope="row">2</th>
-                  <td>Mango</td>
-                  <td><center><i class="fa fa-image"></i></center></td>
-                  <td>https//github.com</td>
-                  <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-                  <td></td>
-               </tr>
-            </tbody>
-         </table>
-         </div>
-
+        </div>
+      </section>
          </div>
          </main>
       </div>
    </div>
-   <!-- Produk End -->
+   <!-- Upload Produk End -->
 
    <!-- footer start -->
    <div class="cpy_">

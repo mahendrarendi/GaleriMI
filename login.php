@@ -88,7 +88,7 @@
                                 <input type="text" name="username" required />
                                 <label><b>Password</b></label>
                                 <input type="password" name="password" required />
-                                <label><input type="checkbox" name="rememberme"/>Remember Me</label>
+                                <label><input type="checkbox" name="rememberme"/> Remember Me</label>
                                 <!-- <input type="submit" value="Login" /> -->
                                 <input type="submit" value="Login" /></div>
                                 <span style="font-size: 16px;"><br>
