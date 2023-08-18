@@ -2,16 +2,26 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nama_kategori = $_POST["name"];
+    $nama_kategori = $_POST["nama_kategori"];
 
     include("../database/config.php");
 
-    $query = "INSERT INTO categories (name) VALUES ('$nama_kategori')";
-    $result = mysqli_query($conn, $query);
+    // Prepared statement
+    $query = "INSERT INTO categories (name) VALUES (?)";
+    $stmt = mysqli_prepare($conn, $query);
 
-    if ($result) {
-        header("Location: kategori.php");
-        exit();
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $nama_kategori);
+        $result = mysqli_stmt_execute($stmt);
+
+        if ($result) {
+            header("Location: kategori.php");
+            exit();
+        } else {
+            $error = "Gagal menambahkan kategori.";
+        }
+
+        mysqli_stmt_close($stmt);
     } else {
         $error = "Gagal menambahkan kategori.";
     }
@@ -19,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($conn);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>

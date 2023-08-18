@@ -66,92 +66,74 @@
       <!-- Slide Bar End -->
 
    <!--Produk -->
-            <!--Produk -->
-        <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
+   <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
             <div class="mb-3 text-right">
-                <a href="tambah_kategori.php" class="btn btn-primary">Tambah Data</a>
+                <a href="kategori.php" class="btn btn-primary">Kembali</a>
             </div>
-            <table class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">NO</th>
-                        <th scope="col">Nama Kategori</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    include("../database/config.php");
+            <section class="why_section layout_paddings">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-4">
+                            <div class="full">
+                                <?php
+                                if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                                    if (isset($_GET["id"])) {
+                                        $kategori_id = $_GET["id"];
 
-                    $query = "SELECT * FROM categories";
-                    $result = mysqli_query($conn, $query);
+                                        // Lakukan kueri untuk mendapatkan data kategori berdasarkan $kategori_id
+                                        include("../database/config.php");
+                                        $query = "SELECT * FROM categories WHERE category_id = '$kategori_id'";
+                                        $result = mysqli_query($conn, $query);
 
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        $count = 1;
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo '<tr>';
-                            echo '<th scope="row">' . $count . '</th>';
-                            echo '<td>' . $row['name'] . '</td>';
-                            echo '<td>
-                                    <a href="edit_kategori.php?id=' . $row['category_id'] . '" class="btn btn-warning btn-sm">
-                                       <i class="fa fa-pencil"></i> Edit
-                                    </a>
-                                    <a href="hapus_kategori.php?id=' . $row['category_id'] . '" class="btn btn-danger btn-sm">
-                                       <i class="fa fa-trash"></i>Hapus
-                                    </a>
+                                        if ($result && mysqli_num_rows($result) > 0) {
+                                            $data_kategori = mysqli_fetch_assoc($result);
 
-                                 </td>';
-                            echo '</tr>';
-                            $count++;
-                        }
-                    } else {
-                        echo '<tr><td colspan="3">Tidak ada data kategori.</td></tr>';
-                    }
+                                            // Tampilkan formulir untuk mengedit kategori
+                                            echo '<form method="post" action="">
+                                                    <input type="hidden" name="kategori_id" value="' . $kategori_id . '">
+                                                    <label><b>Nama Kategori</b></label>
+                                                    <input type="text" name="nama_kategori" value="' . $data_kategori['name'] . '" required />
+                                                    <input type="submit" value="Simpan" class="btn btn-success">
+                                                </form>';
+                                        }
+                                    }
+                                }
 
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
+                                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                                    if (isset($_POST["kategori_id"]) && isset($_POST["nama_kategori"])) {
+                                        $kategori_id = $_POST["kategori_id"];
+                                        $nama_kategori = $_POST["nama_kategori"];
+
+                                        // Lakukan kueri untuk melakukan update data kategori
+                                        include("../database/config.php");
+                                        $query = "UPDATE categories SET name = '$nama_kategori' WHERE category_id = '$kategori_id'";
+                                        $result = mysqli_query($conn, $query);
+
+                                        if ($result) {
+                                            header("Location: kategori.php");
+                                            exit();
+                                        } else {
+                                            $error = "Gagal mengupdate kategori.";
+                                        }
+
+                                        mysqli_close($conn);
+                                    }
+                                }
+                                ?>
+                                <?php if (isset($error)) : ?>
+                                    <div class="alert alert-danger mt-3">
+                                        <?php echo $error; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
-      </div>
+    </div>
    </div>
    <!-- Produk End -->
-
-   <!-- Modal Konfirmasi Hapus -->
-<?php
-include("../database/config.php");
-
-$query = "SELECT * FROM categories";
-$result = mysqli_query($conn, $query);
-
-if ($result && mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        echo '<div class="modal fade" id="hapusModal' . $row['category_id'] . '" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
-                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                       <div class="modal-header">
-                          <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                          </button>
-                       </div>
-                       <div class="modal-body">
-                          Apakah Anda yakin ingin menghapus kategori ini?
-                       </div>
-                       <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                          <a href="hapus_kategori.php?id=' . $row['category_id'] . '" class="btn btn-danger">Hapus</a>
-                       </div>
-                    </div>
-                 </div>
-              </div>';
-    }
-}
-
-mysqli_close($conn);
-?>
-<!-- Modal End -->
-
 
    <!-- footer start -->
    <div class="cpy_">
