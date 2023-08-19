@@ -65,7 +65,7 @@
     </div>
       <!-- Slide Bar End -->
 
-   <!--Produk -->
+ 
             <!--Produk -->
         <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
             <div class="mb-3 text-right">
@@ -80,37 +80,58 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    include("../database/config.php");
+                  <?php
+                  include("../database/config.php");
 
-                    $query = "SELECT * FROM categories";
-                    $result = mysqli_query($conn, $query);
+                  $query = "SELECT * FROM categories";
+                  $result = mysqli_query($conn, $query);
 
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        $count = 1;
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo '<tr>';
-                            echo '<th scope="row">' . $count . '</th>';
-                            echo '<td>' . $row['name'] . '</td>';
-                            echo '<td>
-                                    <a href="edit_kategori.php?id=' . $row['category_id'] . '" class="btn btn-warning btn-sm">
-                                       <i class="fa fa-pencil"></i> Edit
-                                    </a>
-                                    <a href="hapus_kategori.php?id=' . $row['category_id'] . '" class="btn btn-danger btn-sm">
-                                       <i class="fa fa-trash"></i>Hapus
-                                    </a>
+                  if ($result && mysqli_num_rows($result) > 0) {
+                     $count = 1;
+                     while ($row = mysqli_fetch_assoc($result)) {
+                           echo '<tr>';
+                           echo '<th scope="row">' . $count . '</th>';
+                           echo '<td>' . $row['name'] . '</td>';
+                           echo '<td>
+                                 <a href="edit_kategori.php?id=' . $row['category_id'] . '" class="btn btn-warning btn-sm">
+                                    <i class="fa fa-pencil"></i> Edit
+                                 </a>
+                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal' . $row['category_id'] . '">
+                                    <i class="fa fa-trash"></i> Hapus
+                                 </button>';
 
-                                 </td>';
-                            echo '</tr>';
-                            $count++;
-                        }
-                    } else {
-                        echo '<tr><td colspan="3">Tidak ada data kategori.</td></tr>';
-                    }
+                           // Modal konfirmasi hapus
+                           echo '<div class="modal fade" id="deleteModal' . $row['category_id'] . '" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel' . $row['category_id'] . '" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                       <div class="modal-content">
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="deleteModalLabel' . $row['category_id'] . '">Konfirmasi Hapus</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                          </button>
+                                       </div>
+                                       <div class="modal-body">
+                                          <p>Anda yakin ingin menghapus kategori ini?</p>
+                                       </div>
+                                       <div class="modal-footer">
+                                          <a href="hapus_kategori.php?id=' . $row['category_id'] . '" class="btn btn-danger">Ya, Hapus</a>
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                       </div>
+                                       </div>
+                                    </div>
+                                 </div>';
 
-                    mysqli_close($conn);
-                    ?>
-                </tbody>
+                           echo '</td>';
+                           echo '</tr>';
+                           $count++;
+                     }
+                  } else {
+                     echo '<tr><td colspan="3">Tidak ada data kategori.</td></tr>';
+                  }
+
+                  mysqli_close($conn);
+                  ?>
+               </tbody>
             </table>
         </main>
       </div>
