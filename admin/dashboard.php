@@ -65,56 +65,86 @@
             </div>
 
             <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
-               <div class="row">
-                  <div class="col-md-12">
-                     <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <div class="breadcome-list">
-                              <div class="row">
-                                 <div class="col-md-4"><i class="fa fa-users fa-4x ml-4"></i>
-                                    <div class="col-md-6 mt-2">
-                                       <p><b>Pengguna</b></p>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6 text-center">
-                                    <h1 style="font-size:80px;"><b>7</b></h1>
-                                 </div>
-                              </div>
-                           </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="breadcome-list">
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-users fa-4x ml-4"></i>
+                                <div class="col-md-6 mt-2">
+                                    <p><b>Pengguna</b></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <?php
+                                include("../database/config.php");
+
+                                $query_users = "SELECT COUNT(*) AS total_users FROM users";
+                                $result_users = mysqli_query($conn, $query_users);
+                                $data_users = mysqli_fetch_assoc($result_users);
+
+                                echo '<h1 style="font-size:80px;"><b>' . $data_users['total_users'] . '</b></h1>';
+
+                                mysqli_close($conn);
+                                ?>
+                            </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <div class="breadcome-list">
-                              <div class="row">
-                                 <div class="col-md-4"><i class="fa fa-cubes fa-4x ml-4"></i>
-                                    <div class="col-md-6 mt-2 ml-3">
-                                       <p><b>Produk</b></p>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6 text-center">
-                                    <h1 style="font-size:80px;"><b>10</b></h1>
-                                 </div>
-                              </div>
-                           </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="breadcome-list">
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-cubes fa-4x ml-4"></i>
+                                <div class="col-md-6 mt-2 ml-3">
+                                    <p><b>Produk</b></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <?php
+                                include("../database/config.php");
+
+                                $query_products = "SELECT COUNT(*) AS total_products FROM products";
+                                $result_products = mysqli_query($conn, $query_products);
+                                $data_products = mysqli_fetch_assoc($result_products);
+
+                                echo '<h1 style="font-size:80px;"><b>' . $data_products['total_products'] . '</b></h1>';
+
+                                mysqli_close($conn);
+                                ?>
+                            </div>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                           <div class="breadcome-list">
-                              <div class="row">
-                                 <div class="col-md-4"><i class="fa fa-th-list fa-4x ml-4"></i>
-                                    <div class="col-md-6 mt-2">
-                                       <p><b>Category</b></p>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-6 text-center">
-                                    <h1 style="font-size:80px;"><b>3</b></h1>
-                                 </div>
-                              </div>
-                           </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="breadcome-list">
+                        <div class="row">
+                            <div class="col-md-4"><i class="fa fa-th-list fa-4x ml-4"></i>
+                                <div class="col-md-6 mt-2">
+                                    <p><b>Category</b></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <?php
+                                include("../database/config.php");
+
+                                $query_categories = "SELECT COUNT(*) AS total_categories FROM categories";
+                                $result_categories = mysqli_query($conn, $query_categories);
+                                $data_categories = mysqli_fetch_assoc($result_categories);
+
+                                echo '<h1 style="font-size:80px;"><b>' . $data_categories['total_categories'] . '</b></h1>';
+
+                                mysqli_close($conn);
+                                ?>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
-         </div>
-         </main>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
       </div>
    </div>
 

@@ -1,3 +1,40 @@
+<?php
+include("../database/config.php");
+
+$nama_produk = $link_produk = $kategori_produk = $description_produk = $foto_produk_name = $foto_produk_temp = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama_produk = $_POST["nama_produk"];
+    $link_produk = $_POST["link_produk"];
+    $kategori_produk = $_POST["kategori_produk"];
+    $description_produk = $_POST["description"];
+
+    // Upload Foto
+    $foto_produk_name = $_FILES["foto_produk"]["name"];
+    $foto_produk_temp = $_FILES["foto_produk"]["tmp_name"];
+
+    // Check if the file was uploaded without errors
+    if (!empty($foto_produk_name) && is_uploaded_file($foto_produk_temp)) {
+        $foto_produk_data = file_get_contents($foto_produk_temp);
+
+        $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, description, foto_produk_name, foto_produk) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "ssssbs", $nama_produk, $link_produk, $kategori_produk, $description_produk, $foto_produk_name, $foto_produk_data);
+
+        if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
+            mysqli_close($conn);
+            header("Location: produk.php");
+            exit();
+        } else {
+            echo "Error: " . mysqli_error($conn);
+        }
+    } else {
+        echo "Error uploading file.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -67,43 +104,83 @@
 
    <!--Produk -->
    <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
-    <div class="mb-3 text-right">
-        <a href="tambah_produk.php" class="btn btn-primary">Tambah Data</a>
-    </div>
-    <table class="table table-striped table-bordered">
+        <div class="mb-3 text-right">
+            <a href="tambah_produk.php" class="btn btn-primary">Tambah Data</a>
+        </div>
+        <table class="table table-striped table-bordered">
             <thead>
-            <tr>
-               <th scope="col">NO</th>
-               <th scope="col">Nama Produk</th>
-               <th scope="col">Foto Produk</th>
-               <th scope="col">Link Produk</th>
-               <th scope="col">Deskripsi Produk</th>
-               <th scope="col">Aksi</th>
-            </tr>
-         </thead>
-         <tbody>
-            <tr>
-               <th scope="row">1</th>
-               <td>Mango</td>
-               <td><center><i class="fa fa-image"></i></center></td>
-               <td>https//github.com</td>
-               <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-               <td></td>
-            </tr>
-            <tr>
-               <th scope="row">2</th>
-               <td>Mango</td>
-               <td><center><i class="fa fa-image"></i></center></td>
-               <td>https//github.com</td>
-               <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-               <td></td>
-            </tr>
-         </tbody>
-         </table>
-</div>
+                <tr>
+                    <th scope="col" class="text-center">NO</th>
+                    <th scope="col" class="text-center">Nama Produk</th>
+                    <th scope="col" class="text-center">Foto Produk</th>
+                    <th scope="col" class="text-center">Link Produk</th>
+                    <th scope="col" class="text-center">Kategori Produk</th>
+                    <th scope="col" class="text-center">Deskripsi Produk</th>
+                    <th scope="col" class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+    include("../database/config.php");
 
-         </div>
-         </main>
+    $query = "SELECT p.*, c.name AS kategori_name FROM products p
+              LEFT JOIN categories c ON p.kategori_produk = c.category_id";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $count = 1;
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo '<tr>';
+            echo '<th scope="row">' . $count . '</th>';
+            echo '<td>' . $row["nama_produk"] . '</td>';
+            echo '<td><center><i class="fa fa-image"></i></center></td>';
+            echo '<td>' . $row["link_produk"] . '</td>';
+            echo '<td>' . $row["kategori_name"] . '</td>'; // Menampilkan nama kategori
+            echo '<td>' . $row["description"] . '</td>';
+            echo '<td class="text-center">
+                     <a href="edit_produk.php?id=' . $row['product_id'] . '" class="btn btn-warning btn-sm">
+                        <i class="fa fa-pencil"></i> Edit
+                     </a>
+                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal' . $row['product_id'] . '">
+                        <i class="fa fa-trash"></i> Hapus
+                     </button>';
+            echo '</tr>';
+
+                // Modal for delete confirmation
+      echo '<div class="modal fade" id="deleteModal' . $row['product_id'] . '" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel' . $row['product_id'] . '" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel' . $row['product_id'] . '">Konfirmasi Hapus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                     <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus produk ini?
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <a href="hapus_produk.php?id=' . $row['product_id'] . '" class="btn btn-danger">Hapus</a>
+                     </div>
+                  </div>
+               </div>
+            </div>';
+
+            $count++;
+        }
+    } else {
+        echo '<tr><td colspan="6" class="text-center">Tidak ada data produk.</td></tr>';
+    }
+
+    mysqli_close($conn);
+?>
+
+
+</tbody>
+
+        </table>
+    </main>
       </div>
    </div>
    <!-- Produk End -->

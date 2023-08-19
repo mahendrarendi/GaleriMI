@@ -55,7 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="sub_page">
     <div class="hero_area">
-        <!-- header section strats -->
         <!-- <header class="header_section">
             <div class="container">
                 <nav class="navbar navbar-expand-lg custom_nav-container ">

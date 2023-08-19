@@ -56,9 +56,9 @@
                   <a href="dashboard.php" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">Dashboard</span></a>
                   <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-gear"></i> <span class="d-none d-md-inline">Data Master</span> </a>
                   <div class="collapse" id="menu1" data-parent="#sidebar">
-                     <a href="#" class="list-group-item">Data Produk</a>
+                     <a href="produk.php" class="list-group-item">Data Produk</a>
                      <a href="pengguna.php" class="list-group-item">Data Pengguna</a>
-                     <a href="#" class="list-group-item">Data Kategori</a>
+                     <a href="kategori.php" class="list-group-item">Data Kategori</a>
                   </div>
                   <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
         </div>

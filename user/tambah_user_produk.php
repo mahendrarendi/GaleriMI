@@ -1,40 +1,38 @@
 <?php
-session_start();
+    include("../database/config.php");
 
-// Cek apakah pengguna sudah login
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['nama'])) {
-    header("Location: login.php");
-    exit();
-}
+    $nama_produk = $link_produk = $kategori_produk = $description_produk = $foto_produk_name = $foto_produk_temp = "";
 
-include("database/config.php");
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nama_produk = $_POST["nama_produk"];
+        $link_produk = $_POST["link_produk"];
+        $kategori_produk = $_POST["kategori_produk"];
+        $description_produk = $_POST["description_produk"];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Ambil data dari form
-    $nama_produk = $_POST["nama_produk"];
-    $link_produk = $_POST["link_produk"];
-    $kategori_produk = $_POST["kategori_produk"];
-    $deskripsi_produk = $_POST["deskripsi_produk"];
-    $foto_produk = $_POST["foto_produk"];
+        // Upload Foto
+        $foto_produk_name = $_FILES["foto_produk"]["name"];
+        $foto_produk_temp = $_FILES["foto_produk"]["tmp_name"];
 
-    // Lakukan validasi data jika diperlukan
-    // ...
+        // Check if the file was uploaded without errors
+        if (!empty($foto_produk_name) && is_uploaded_file($foto_produk_temp)) {
+            $foto_produk_data = file_get_contents($foto_produk_temp);
 
-    // Query INSERT ke dalam database
-    $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, deskripsi_produk, foto_produk) VALUES ('$nama_produk', '$link_produk', '$kategori_produk', '$deskripsi_produk','$foto_produk')";
-    $result = mysqli_query($conn, $query);
+            $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, description, foto_produk_name, foto_produk) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = mysqli_prepare($conn, $query);
+            mysqli_stmt_bind_param($stmt, "ssssbs", $nama_produk, $link_produk, $kategori_produk, $description_produk, $foto_produk_name, $foto_produk_data);
 
-    if ($result) {
-        // Jika berhasil, redirect ke halaman dashboard
-        header("Location: dashboard_user.php");
-        exit();
-    } else {
-        // Jika gagal, tampilkan pesan error
-        $uploadError = "Terjadi kesalahan saat mengunggah produk.";
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_close($stmt);
+                mysqli_close($conn);
+                header("Location: produk.php");
+                exit();
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
+        } else {
+            echo "Error uploading file.";
+        }
     }
-
-    mysqli_close($conn);
-}
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                <a href="dashboard_user.php" class="list-group-item d-inline-block collapsed">
                   <i class="fa fa-gear"></i> <span class="d-none d-md-inline">Manajemen Produk</span>
                </a>
-               <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
+               <a href="../logout.php" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
                </div>
             </div>
             <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
@@ -110,32 +108,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          <!-- Slide Bar end -->
 
    <!-- Upload Produk -->
-    <section class="why_section layout_paddings">
+   <section class="why_section layout_paddings">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 offset-lg-4">
                     <div class="full">
-                        <form action="">
-                            <fieldset>
-                                <label><b>Nama Produk</b></label>
-                                <input type="text" name="nama_produk" required />
-                                <label><b>Foto Produk</b></label>
-                                <input type="file" name="foto_produk" required />
-                                <label><b>Link Produk</b></label>
-                                <input type="text" name="link_produk" required />
-                                <label><b>Kategori Produk</b></label>
-                                <input type="select" name="link_produk" required />
-                                <label><b>Deskripsi Produk</b></label>
-                                <input type="text" name="deskripsi_produk" required />
-                                <input type="submit" value="Unggah" /></div>
-                                <span style="font-size: 16px;"><br></span>
-                            </fieldset>
+                        <form action="tambah_user_produk.php" method="post" enctype="multipart/form-data">
+                           <fieldset>
+                                 <label><b>Nama Produk</b></label>
+                                 <input type="text" name="nama_produk" required />
+                                 <label><b>Link Produk</b></label>
+                                 <input type="text" name="link_produk" required />
+                                 <label><b>Kategori Produk</b></label>
+                                 <input type="text" name="kategori_produk" required />
+                                 <label><b>Deskripsi Produk</b></label>
+                                 <textarea name="description_produk" required></textarea>
+                                 <label><b>Foto Produk</b></label>
+                                 <input type="file" name="foto_produk" required />
+                                 <input type="submit" value="Tambah Produk" />
+                           </fieldset>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-      </section>
+    </section>
+
          </div>
          </main>
       </div>

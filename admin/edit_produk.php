@@ -1,38 +1,47 @@
 <?php
-    include("../database/config.php");
+include("../database/config.php");
 
-    $nama_produk = $link_produk = $kategori_produk = $description_produk = $foto_produk_name = $foto_produk_temp = $foto_produk_data = "";
+$error = ""; // Inisialisasi variabel error
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET["id"])) {
+        $produk_id = $_GET["id"];
+
+        // Lakukan kueri untuk mendapatkan data produk berdasarkan $produk_id
+        $query = "SELECT * FROM products WHERE product_id = '$produk_id'";
+        $result = mysqli_query($conn, $query);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            $data_produk = mysqli_fetch_assoc($result);
+        } else {
+            $error = "Data produk tidak ditemukan.";
+        }
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["produk_id"]) && isset($_POST["nama_produk"]) && isset($_POST["link_produk"]) && isset($_POST["kategori_produk"]) && isset($_POST["description_produk"])) {
+        $produk_id = $_POST["produk_id"];
         $nama_produk = $_POST["nama_produk"];
         $link_produk = $_POST["link_produk"];
         $kategori_produk = $_POST["kategori_produk"];
         $description_produk = $_POST["description_produk"];
 
-        // Upload Foto
-        $foto_produk_name = $_FILES["foto_produk"]["name"];
-        $foto_produk_temp = $_FILES["foto_produk"]["tmp_name"];
+        // Lakukan kueri untuk melakukan update data produk
+        $query = "UPDATE products SET nama_produk = ?, link_produk = ?, kategori_produk = ?, description = ? WHERE product_id = ?";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "ssisi", $nama_produk, $link_produk, $kategori_produk, $description_produk, $produk_id);
 
-        // Check if the file was uploaded without errors
-        if (!empty($foto_produk_name) && is_uploaded_file($foto_produk_temp)) {
-            $foto_produk_data = file_get_contents($foto_produk_temp);
-
-            $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, description, foto_produk_name, foto_produk) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($stmt, "ssssbs", $nama_produk, $link_produk, $kategori_produk, $description_produk, $foto_produk_name, $foto_produk_data);
-
-            if (mysqli_stmt_execute($stmt)) {
-                mysqli_stmt_close($stmt);
-                mysqli_close($conn);
-                header("Location: produk.php");
-                exit();
-            } else {
-                echo "Error: " . mysqli_error($conn);
-            }
+        if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
+            mysqli_close($conn);
+            header("Location: produk.php");
+            exit();
         } else {
-            echo "Error uploading file.";
+            $error = "Gagal mengupdate produk.";
         }
     }
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,16 +57,7 @@
    <meta name="keywords" content="" />
    <meta name="description" content="" />
    <meta name="author" content="" />
-   <title>ProduK User</title>
-
-   <!-- ... kode lain ... -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
-
-
+   <title>Edit Produk</title>
    <!-- bootstrap core css -->
    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
    <!-- font awesome style -->
@@ -67,7 +67,6 @@
    <!-- responsive style -->
    <link href="../assets/css/responsive.css" rel="stylesheet" />
    <link rel="shortcut icon" href="../assets/img/LOGO.png">
-   
    <style>
    /* Styling for the wrapper div */
    .input-wrapper {
@@ -126,11 +125,11 @@
                   <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
         </div>
     </div>
-            
       <!-- Slide Bar End -->
 
-   <!-- Upload Produk -->
+   <!-- Edit Produk -->
    <section class="why_section layout_paddings">
+   
         <div class="container">
             <div class="mb-3 text-right">
                 <a href="produk.php" class="btn btn-primary">Kembali</a>
@@ -138,15 +137,18 @@
             <div class="row">
                 <div class="col-lg-4 offset-lg-4">
                     <div class="full">
-                     <form action="tambah_produk.php" method="post" enctype="multipart/form-data">
+                     <form action="" method="post" enctype="multipart/form-data">
                               <fieldset>
+                                    <input type="hidden" name="produk_id" value="<?php echo $data_produk['product_id']; ?>">
                                     <label><b>Nama Produk</b></label>
-                                    <input type="text" name="nama_produk" required />
+                                    <input type="text" name="nama_produk" value="<?php echo $data_produk['nama_produk']; ?>" required />
+                                    <!-- Kemudian setelah input Deskripsi Produk, tambahkan input untuk mengganti foto produk -->
+                                    <label><b>Ganti Foto Produk</b></label>
+                                    <input type="file" name="foto_produk">
+
                                     <label><b>Link Produk</b></label>
-                                    <input type="text" name="link_produk" required />
-                                    <label><b>Foto Produk</b></label>
-                                    <input type="file" name="foto_produk" required />
-                                       <div class="input-wrapper">
+                                    <input type="text" name="link_produk" value="<?php echo $data_produk['link_produk']; ?>" required />
+                                    <div class="input-wrapper">
                                           <label><b>Kategori Produk</b></label>
                                           <select name="kategori_produk" required>
                                              <?php
@@ -157,16 +159,18 @@
 
                                              if ($kategori_result && mysqli_num_rows($kategori_result) > 0) {
                                                 while ($kategori_row = mysqli_fetch_assoc($kategori_result)) {
-                                                   echo '<option value="' . $kategori_row["category_id"] . '">' . $kategori_row["name"] . '</option>';
+                                                   $selected = ($kategori_row['category_id'] == $data_produk['kategori_produk']) ? 'selected' : '';
+                                                   echo '<option value="' . $kategori_row["category_id"] . '" ' . $selected . '>' . $kategori_row["name"] . '</option>';
                                                 }
                                              }
                                              mysqli_close($conn);
                                              ?>
                                           </select>
                                        </div>
+
                                     <label><b>Deskripsi Produk</b></label>
-                                    <textarea name="description_produk" required></textarea>
-                                    <input type="submit" value="Tambah Produk" />
+                                    <textarea name="description_produk" required><?php echo $data_produk['description']; ?></textarea>
+                                    <input type="submit" value="Simpan Perubahan" />
                               </fieldset>
                            </form>
                     </div>
@@ -178,7 +182,7 @@
          </main>
       </div>
    </div>
-   <!-- Produk End -->
+   <!-- Edit Produk End -->
 
    <!-- footer start -->
    <div class="cpy_">
