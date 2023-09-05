@@ -1,9 +1,8 @@
 <?php
 session_start();
-session_start();
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['nama'])) {
-    header("Location: ../login.php");
-    exit();
+   header("Location: ../login.php");
+   exit();
 }
 ?>
 
@@ -36,30 +35,29 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['nama'])) {
    <div class="hero_area">
 
       <!-- header section strats -->
-         <header class="header_section">
-            <div class="container">
-               <nav class="navbar navbar-expand-lg custom_nav-container ">
-                  <a class="navbar-brand" href="index.php"><img width="50" src="../assets/img/LOGO.png" alt="#" /></a>
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                     <span> </span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                     <ul class="navbar-nav">
-                        <li class="nav-item" style="margin-left: 10px;">
+      <header class="header_section">
+         <div class="container">
+            <nav class="navbar navbar-expand-lg custom_nav-container ">
+               <a class="navbar-brand" href="index.php"><img width="50" src="../assets/img/LOGO.png" alt="#" /></a>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span> </span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav">
+                     <li class="nav-item" style="margin-left: 10px;">
                         <?php
-                           session_start();
-                           if (isset($_SESSION['user_id']) && isset($_SESSION['nama'])) {
-                              echo '<i class="fa fa-user fa-lg"></i> Selamat datang, ' . $_SESSION['nama'];
-                           } else {
-                              echo '<i class="fa fa-exclamation-triangle fa-lg"></i> Tidak ada informasi login';
-                           }
+                        if (isset($_SESSION['user_id']) && isset($_SESSION['nama'])) {
+                           echo '<i class="fa fa-user fa-lg"></i> Selamat datang, ' . $_SESSION['nama'];
+                        } else {
+                           echo '<i class="fa fa-exclamation-triangle fa-lg"></i> Tidak ada informasi login';
+                        }
                         ?>
-                        </li>
-                     </ul>
-                  </div>
-               </nav>
-            </div>
-         </header>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+         </div>
+      </header>
 
 
       <!-- end header section -->
@@ -77,49 +75,86 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['nama'])) {
                   </a>
                </div>
             </div>
-      <!-- Slide Bar End -->
+            <!-- Slide Bar End -->
 
-      <!--Produk -->
-         <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
-            <div class="mb-3 text-right">
-               <a href="tambah_user_produk.php" class="btn btn-primary">Tambah Data</a>
-            </div>
-            <table class="table table-striped table-bordered">
-            <thead>
-               <tr>
-                  <th scope="col">NO</th>
-                  <th scope="col">Nama Produk</th>
-                  <th scope="col">Foto Produk</th>
-                  <th scope="col">Link Produk</th>
-                  <th scope="col">Deskripsi Produk</th>
-                  <th scope="col">Aksi</th>
-               </tr>
-            </thead>
+            <!--Produk -->
+            <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
+               <div class="mb-3 text-right">
+                  <a href="tambah_user_produk.php" class="btn btn-primary">Tambah Data</a>
+               </div>
+               <table class="table table-striped table-bordered">
+                  <thead>
+                     <tr>
+                        <th scope="col">NO</th>
+                        <th scope="col">Nama Produk</th>
+                        <th scope="col">Foto Produk</th>
+                        <th scope="col">Link Produk</th>
+                        <th scope="col">Deskripsi Produk</th>
+                        <th scope="col">Aksi</th>
+                     </tr>
+                  </thead>
 
-            <tbody>
-               <tr>
-                  <th scope="row">1</th>
-                  <td>Mango</td>
-                  <td><center><i class="fa fa-image"></i></center></td>
-                  <td>https//github.com</td>
-                  <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-                  <td></td>
-               </tr>
-               <tr>
-                  <th scope="row">2</th>
-                  <td>Mango</td>
-                  <td><center><i class="fa fa-image"></i></center></td>
-                  <td>https//github.com</td>
-                  <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-                  <td></td>
-               </tr>
-            </tbody>
-         </table>
+                  <tbody>
+                     <?php
+                     include("../database/config.php");
+
+                     $query = "SELECT * FROM products LEFT JOIN users ON products.user_id = users.id WHERE products.user_id = $_SESSION[user_id]";
+                     $result = mysqli_query($conn, $query);
+
+                     if ($result && mysqli_num_rows($result) > 0) {
+                        $count = 1;
+                        while ($row = mysqli_fetch_assoc($result)) {
+                           echo '<tr>';
+                           echo '<th scope="row">' . $count . '</th>';
+                           echo '<td>' . $row["nama_produk"] . '</td>';
+                           echo '<td></td>';
+                           echo '<td>' . $row["link_produk"] . '</td>';
+                           echo '<td>' . $row["description"] . '</td>';
+                           echo '<td class="text-center">
+                                 <a href="edit_produk.php?id=' . $row['product_id'] . '" class="btn btn-warning btn-sm">
+                                    <i class="fa fa-pencil"></i> Edit
+                                 </a>
+                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal' . $row['product_id'] . '">
+                                    <i class="fa fa-trash"></i> Hapus
+                                 </button>';
+                           echo '</tr>';
+
+                           // Modal for delete confirmation
+                           echo '<div class="modal fade" id="deleteModal' . $row['product_id'] . '" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel' . $row['product_id'] . '" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <h5 class="modal-title" id="deleteModalLabel' . $row['product_id'] . '">Konfirmasi Hapus</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                             </button>
+                                          </div>
+                                          <div class="modal-body">
+                                             Apakah Anda yakin ingin menghapus produk ini?
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                             <a href="hapus_produk.php?id=' . $row['product_id'] . '" class="btn btn-danger">Hapus</a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>';
+
+                           $count++;
+                        }
+                     } else {
+                        echo '<tr><td colspan="6" class="text-center">Tidak ada data user.</td></tr>';
+                     }
+
+                     mysqli_close($conn);
+                     ?>
+                  </tbody>
+               </table>
          </div>
 
-         </div>
-         </main>
       </div>
+      </main>
+   </div>
    </div>
    <!-- Produk End -->
 
