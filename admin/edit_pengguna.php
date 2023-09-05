@@ -1,40 +1,46 @@
 <?php
-    include("../database/config.php");
+include("../database/config.php");
 
-    $nama_user = $nim_user = $email_user = $password_user = $foto_user_name = $foto_user_temp = $foto_user_data = $role = "";
+$error = ""; // Inisialisasi variabel error
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      $nama_user = $_POST["nama"];
-      $nim_user = $_POST["nim"];
-      $email_user = $_POST["email"];
-      $password_user = $_POST["password"];
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET["id"])) {
+        $user_id = $_GET["id"];
 
-      $hashedPassword = password_hash($password_user, PASSWORD_DEFAULT);
+        // Lakukan kueri untuk mendapatkan data user berdasarkan $user_id
+        $query = "SELECT * FROM users WHERE id = '$user_id'";
+        $result = mysqli_query($conn, $query);
 
-        // Upload Foto
-        $foto_user_name = $_FILES["foto_data"]["name"];
-        $foto_user_temp = $_FILES["foto_data"]["tmp_name"];
-
-        // Check if the file was uploaded without errors
-        if (!empty($foto_user_name) && is_uploaded_file($foto_user_temp)) {
-            $foto_user_data = file_get_contents($foto_user_temp);
-
-            $query = "INSERT INTO users (nama, nim, email, password, foto_name, foto_data, role) VALUES (?, ?, ?, ?, ?, ?, 'user')";
-            $stmt = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($stmt, "ssssbs", $nama_user, $nim_user, $email_user, $hashedPassword, $foto_user_name, $foto_user_data);
-
-            if (mysqli_stmt_execute($stmt)) {
-                mysqli_stmt_close($stmt);
-                mysqli_close($conn);
-                header("Location: pengguna.php");
-                exit();
-            } else {
-                echo "Error: " . mysqli_error($conn);
-            }
+        if ($result && mysqli_num_rows($result) > 0) {
+            $data_user = mysqli_fetch_assoc($result);
         } else {
-            echo "Error uploading file.";
+            $error = "Data user tidak ditemukan.";
         }
     }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["id"]) && isset($_POST["nama"]) && isset($_POST["email"])) {
+        $user_id = $_POST["produk_id"];
+        $nama_user = $_POST["nama_user"];
+        $email_user = $_POST["email_user"];
+        $nim_user = $_POST["nim_user"];
+
+        // Lakukan kueri untuk melakukan update data produk
+        $query = "UPDATE users SET nama = ?, nim = ?, email = ? WHERE id = ?";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "ssisi", $nama_user, $nim_user, $email_user, $user_id);
+
+        if (mysqli_stmt_execute($stmt)) {
+            mysqli_stmt_close($stmt);
+            mysqli_close($conn);
+            header("Location: pengguna.php");
+            exit();
+        } else {
+            $error = "Gagal mengupdate user.";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +56,7 @@
    <meta name="keywords" content="" />
    <meta name="description" content="" />
    <meta name="author" content="" />
-   <title>ProduK User</title>
+   <title>Edit Produk</title>
    <!-- bootstrap core css -->
    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
    <!-- font awesome style -->
@@ -60,6 +66,22 @@
    <!-- responsive style -->
    <link href="../assets/css/responsive.css" rel="stylesheet" />
    <link rel="shortcut icon" href="../assets/img/LOGO.png">
+   <style>
+   /* Styling for the wrapper div */
+   .input-wrapper {
+      margin-bottom: 20px;
+   }
+
+   /* Styling for the select element */
+   select[name="kategori_produk"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+   }
+</style>
 </head>
 
 <body>
@@ -68,7 +90,7 @@
       <header class="header_section">
          <div class="container">
             <nav class="navbar navbar-expand-lg custom_nav-container ">
-               <a class="navbar-brand" href="./index.php"><img width="50" src="../assets/img/LOGO.png" alt="#" /></a>
+               <a class="navbar-brand" href="index.php"><img width="50" src="../assets/img/LOGO.png" alt="#" /></a>
                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class=""> </span>
                </button>
@@ -88,7 +110,7 @@
       <!-- end header section -->
 
       <!-- Slide Bar -->
-      <div class="container-fluid">
+    <div class="container-fluid">
          <div class="row d-flex d-md-block flex-nowrap wrapper">
             <div class="col-md-2 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
                <div class="list-group border-0 text-center text-md-left">
@@ -100,64 +122,53 @@
                      <a href="kategori.php" class="list-group-item">Data Kategori</a>
                   </div>
                   <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
-               </div>
-            </div>
-            <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
-               <div class="page-header text-center">
-               <img width="50" src="../assets/img/LOGO.png" alt="#" />
-               </div>
-            </main>
-      <!-- Slide Bar End -->
-
-   <!--Produk -->
-        <section class="why_section layout_paddings">
-                <div class="container">
-                    <div class="row" style="margin-bottom: 100px;">
-                        <div class="col-lg-4 offset-lg-4">
-                            <div class="full">
-                                <form action="tambah_pengguna.php" method="post" enctype="multipart/form-data">
-                                    <fieldset>
-                                        <label><b>Nama</b></label>
-                                        <input type="text" name="nama" required />
-                                        <label><b>Foto </b></label>
-                                        <input type="file" name="foto_data" required />
-                                        <label><b>NIM</b></label>
-                                        <input type="text" name="nim" required />
-                                        <label><b>Email</b></label>
-                                        <input type="select" name="email" required />
-                                        <label><b>Password</b></label>
-                                        <input type="password" name="password" required />
-                                        <input type="submit" value="Unggah" /></div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-         </section>
-   <!-- Produk End -->
-
-    <!-- footer start -->
-
-    <style>
-        .footer-wrapper {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            padding: 0px 0;
-        }
-    </style>
-
-
-    <div class="footer-wrapper">
-        <div class="cpy_">
-            <p class="mx-auto">
-                Copyright © All Rights Reserved
-            </p>
         </div>
     </div>
+      <!-- Slide Bar End -->
 
+   <!-- Edit Produk -->
+   <section class="why_section layout_paddings">
+   
+        <div class="container">
+            <div class="mb-3 text-right">
+                <a href="produk.php" class="btn btn-primary">Kembali</a>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <div class="full">
+                     <form action="" method="post" enctype="multipart/form-data">
+                              <fieldset>
+                                    <input type="hidden" name="id" value="<?php echo $data_user['id']; ?>">
+                                    <label><b>Nama</b></label>
+                                    <input type="text" name="nama" value="<?php echo $data_user['nama']; ?>" required />
+                                    <!-- Kemudian setelah input Deskripsi Produk, tambahkan input untuk mengganti foto produk -->
+                                    <label><b>Ganti Foto </b></label>
+                                    <input type="file" name="foto_data">
+
+                                    <label><b>Nim</b></label>
+                                    <input type="text" name="nim" value="<?php echo $data_user['nim']; ?>" required />
+                                    <label><b>Email</b></label>
+                                    <input type="text" name="email" value="<?php echo $data_user['email']; ?>" required />
+                                    <input type="submit" value="Simpan Perubahan" />
+                              </fieldset>
+                           </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+         </div>
+         </main>
+      </div>
+   </div>
+   <!-- Edit Produk End -->
+
+   <!-- footer start -->
+   <div class="cpy_">
+      <p class="mx-auto">
+         Copyright © All Rights Reserved
+      </p>
+   </div>
    <!-- footer end -->
 
    <!-- Optional JavaScript -->

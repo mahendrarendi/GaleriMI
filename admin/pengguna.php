@@ -11,7 +11,7 @@
    <meta name="keywords" content="" />
    <meta name="description" content="" />
    <meta name="author" content="" />
-   <title>ProduK User</title>
+   <title>Produk User</title>
    <!-- bootstrap core css -->
    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" />
    <!-- font awesome style -->
@@ -36,10 +36,10 @@
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav">
                      <li class="nav-item">
-                     <i class="fa fa-search fa-lg"></i> 
+                        <i class="fa fa-search fa-lg"></i>
                      </li>
                      <li class="nav-item" style="margin-left: 10px;">
-                     <i class="fa fa-user fa-lg"></i> 
+                        <i class="fa fa-user fa-lg"></i>
                      </li>
                   </ul>
                </div>
@@ -49,7 +49,7 @@
       <!-- end header section -->
 
       <!-- Slide Bar -->
-    <div class="container-fluid">
+      <div class="container-fluid">
          <div class="row d-flex d-md-block flex-nowrap wrapper">
             <div class="col-md-2 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
                <div class="list-group border-0 text-center text-md-left">
@@ -61,42 +61,87 @@
                      <a href="#" class="list-group-item">Data Kategori</a>
                   </div>
                   <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
-        </div>
-    </div>
-      <!-- Slide Bar End -->
+               </div>
+            </div>
+            <!-- Slide Bar End -->
 
-   <!--Produk -->
-   <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
-    <div class="mb-3 text-right">
-        <a href="tambah_pengguna.php" class="btn btn-primary">Tambah Data</a>
-    </div>
-   <table class="table table-striped table-bordered">
-   <thead>
-    <tr>
-      <th scope="col">NO</th>
-      <th scope="col">Nama</th>
-      <th scope="col">Foto</th>
-      <th scope="col">NIM</th>
-      <th scope="col">Email</th>
-      <th scope="col">Aksi</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mango</td>
-      <td><center><i class="fa fa-image"></i></center></td>
-      <td>https//github.com</td>
-      <td>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
-</div>
+            <!--Produk -->
+            <main class="col-md-10 float-left col px-5 pl-md-2 pt-2 main">
+               <div class="mb-3 text-right">
+                  <a href="tambah_pengguna.php" class="btn btn-primary">Tambah Data</a>
+               </div>
+               <table class="table table-striped table-bordered">
+                  <thead>
+                     <tr>
+                        <th scope="col">NO</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Foto</th>
+                        <th scope="col">NIM</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Aksi</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <?php
+                     include("../database/config.php");
 
+                     $query = "SELECT * FROM users ";
+                     $result = mysqli_query($conn, $query);
+
+                     if ($result && mysqli_num_rows($result) > 0) {
+                        $count = 1;
+                        while ($row = mysqli_fetch_assoc($result)) {
+                           echo '<tr>';
+                           echo '<th scope="row">' . $count . '</th>';
+                           echo '<td>' . $row["nama"] . '</td>';
+                           echo '<td></td>';
+                           echo '<td>' . $row["nim"] . '</td>';
+                           echo '<td>' . $row["email"] . '</td>';
+                           echo '<td class="text-center">
+                     <a href="edit_pengguna.php?id=' . $row['id'] . '" class="btn btn-warning btn-sm">
+                        <i class="fa fa-pencil"></i> Edit
+                     </a>
+                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal' . $row['id'] . '">
+                        <i class="fa fa-trash"></i> Hapus
+                     </button>';
+                           echo '</tr>';
+
+                           // Modal for delete confirmation
+                           echo '<div class="modal fade" id="deleteModal' . $row['id'] . '" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel' . $row['id'] . '" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel' . $row['id'] . '">Konfirmasi Hapus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                        </button>
+                     </div>
+                     <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus user ini?
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <a href="hapus_pengguna.php?id=' . $row['id'] . '" class="btn btn-danger">Hapus</a>
+                     </div>
+                  </div>
+               </div>
+            </div>';
+
+                           $count++;
+                        }
+                     } else {
+                        echo '<tr><td colspan="6" class="text-center">Tidak ada data user.</td></tr>';
+                     }
+
+                     mysqli_close($conn);
+                     ?>
+                  </tbody>
+               </table>
          </div>
-         </main>
+
       </div>
+      </main>
+   </div>
    </div>
    <!-- Produk End -->
 
