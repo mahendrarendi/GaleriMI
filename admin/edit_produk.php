@@ -82,6 +82,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       background-color: #f8f8f8;
       font-size: 16px;
    }
+
+   /* Styling for the select element */
+   select[name="nama_pemilik"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+   }
 </style>
 </head>
 
@@ -139,6 +149,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="full">
                      <form action="" method="post" enctype="multipart/form-data">
                               <fieldset>
+                              <div class="input-wrapper">
+                                          <label><b>Nama Pemilik</b></label>
+                                          <select name="nama_pemilik" required>
+                                             <?php
+                                             include("../database/config.php");
+
+                                             $user_query = "SELECT * FROM users";
+                                             $user_result = mysqli_query($conn, $user_query);
+
+                                             if ($user_result && mysqli_num_rows($user_result) > 0) {
+                                                while ($user_row = mysqli_fetch_assoc($user_result)) {
+                                                   $selected = ($user_row['id'] == $data_produk['nama_pemilik']) ? 'selected' : '';
+                                                   echo '<option value="' . $user_row["id"] . '" ' . $selected . '>' . $user_row["nama"] . '</option>';
+                                                }
+                                             }
+                                             mysqli_close($conn);
+                                             ?>
+                                          </select>
+                                       </div>
                                     <input type="hidden" name="produk_id" value="<?php echo $data_produk['product_id']; ?>">
                                     <label><b>Nama Produk</b></label>
                                     <input type="text" name="nama_produk" value="<?php echo $data_produk['nama_produk']; ?>" required />
