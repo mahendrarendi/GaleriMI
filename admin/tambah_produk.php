@@ -4,6 +4,7 @@
     $nama_produk = $link_produk = $kategori_produk = $description_produk = $foto_produk_name = $foto_produk_temp = $foto_produk_data = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nama_pemilik = $_POST["nama_pemilik"];
         $nama_produk = $_POST["nama_produk"];
         $link_produk = $_POST["link_produk"];
         $kategori_produk = $_POST["kategori_produk"];
@@ -17,9 +18,11 @@
         if (!empty($foto_produk_name) && is_uploaded_file($foto_produk_temp)) {
             $foto_produk_data = file_get_contents($foto_produk_temp);
 
-            $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, description, foto_produk_name, foto_produk) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = mysqli_prepare($conn, $query);
-            mysqli_stmt_bind_param($stmt, "ssssbs", $nama_produk, $link_produk, $kategori_produk, $description_produk, $foto_produk_name, $foto_produk_data);
+            $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, description, foto_produk_name, foto_produk, nama_pemilik) 
+          VALUES (?, ?, ?, ?, ?, ?, ?)";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "ssssbsi", $nama_produk, $link_produk, $kategori_produk, $description_produk, $foto_produk_name, $foto_produk_data, $nama_pemilik);
+
 
             if (mysqli_stmt_execute($stmt)) {
                 mysqli_stmt_close($stmt);
@@ -83,7 +86,24 @@
       background-color: #f8f8f8;
       font-size: 16px;
    }
+
+    /* Styling for the wrapper div */
+    .input-wrapper {
+      margin-bottom: 20px;
+   }
+
+   /* Styling for the select element */
+   select[name="nama_pemilik"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+   }
 </style>
+
+
 </head>
 
 <body>
@@ -140,6 +160,24 @@
                     <div class="full">
                      <form action="tambah_produk.php" method="post" enctype="multipart/form-data">
                               <fieldset>
+                                       <div class="input-wrapper">
+                                          <label><b>Nama Pemilik</b></label>
+                                          <select name="nama_pemilik" required>
+                                             <?php
+                                             include("../database/config.php");
+
+                                             $user_query = "SELECT * FROM users";
+                                             $user_result = mysqli_query($conn, $user_query);
+
+                                             if ($user_result && mysqli_num_rows($user_result) > 0) {
+                                                while ($user_row = mysqli_fetch_assoc($user_result)) {
+                                                   echo '<option value="' . $user_row["id"] . '">' . $user_row["nama"] . '</option>';
+                                                }
+                                             }
+                                             mysqli_close($conn);
+                                             ?>
+                                          </select>
+                                       </div>
                                     <label><b>Nama Produk</b></label>
                                     <input type="text" name="nama_produk" required />
                                     <label><b>Link Produk</b></label>

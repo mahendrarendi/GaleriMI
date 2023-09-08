@@ -4,6 +4,7 @@ include("../database/config.php");
 $nama_produk = $link_produk = $kategori_produk = $description_produk = $foto_produk_name = $foto_produk_temp = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+   $nama_pemilik = $_POST["nama_pemilik"];
     $nama_produk = $_POST["nama_produk"];
     $link_produk = $_POST["link_produk"];
     $kategori_produk = $_POST["kategori_produk"];
@@ -17,9 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($foto_produk_name) && is_uploaded_file($foto_produk_temp)) {
         $foto_produk_data = file_get_contents($foto_produk_temp);
 
-        $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, description, foto_produk_name, foto_produk) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO products (nama_produk, link_produk, kategori_produk, description, foto_produk_name, foto_produk, nama_pemilik) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "ssssbs", $nama_produk, $link_produk, $kategori_produk, $description_produk, $foto_produk_name, $foto_produk_data);
+        mysqli_stmt_bind_param($stmt, "ssssbs", $nama_produk, $link_produk, $kategori_produk, $description_produk, $foto_produk_name, $foto_produk_data, $nama_pemilik);
 
         if (mysqli_stmt_execute($stmt)) {
             mysqli_stmt_close($stmt);
@@ -111,6 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <thead>
                 <tr>
                     <th scope="col" class="text-center">NO</th>
+                    <th scope="col" class="text-center">Nama Pemilik</th>
                     <th scope="col" class="text-center">Nama Produk</th>
                     <th scope="col" class="text-center">Foto Produk</th>
                     <th scope="col" class="text-center">Link Produk</th>
@@ -123,8 +125,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php
     include("../database/config.php");
 
-    $query = "SELECT p.*, c.name AS kategori_name FROM products p
-              LEFT JOIN categories c ON p.kategori_produk = c.category_id";
+    $query = "SELECT p.*, c.name AS kategori_name, u.nama AS nama_pemilik FROM products p
+          LEFT JOIN categories c ON p.kategori_produk = c.category_id
+          LEFT JOIN users u ON p.nama_pemilik = u.id";
+
+              
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
@@ -132,6 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         while ($row = mysqli_fetch_assoc($result)) {
             echo '<tr>';
             echo '<th scope="row">' . $count . '</th>';
+            echo '<td>' . $row["nama_pemilik"] . '</td>';
             echo '<td>' . $row["nama_produk"] . '</td>';
             echo '<td><center><i class="fa fa-image"></i></center></td>';
             echo '<td>' . $row["link_produk"] . '</td>';

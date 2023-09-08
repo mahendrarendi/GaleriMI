@@ -3,7 +3,7 @@
 $dbHost = "localhost";
 $dbUser = "root";
 $dbPass = "";
-$dbName = "galerimi";
+$dbName = "webgaleri";
 
 // Create Connection
 $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
