@@ -7,17 +7,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     include("database/config.php");
 
-    $query = "SELECT id, nama, password FROM users WHERE email = '$email'";
+    $query = "SELECT id, nama,role, password FROM users WHERE email = '$email'";
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
 
         if (password_verify($password, $row['password'])) {
-            $_SESSION['user_id'] = $row['id'];
-            $_SESSION['nama'] = $row['nama'];
-            header("Location: user/dashboard_user.php");
-            exit();
+            if($row['role']=="user"){
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['nama'] = $row['nama'];
+                $_SESSION['level'] = "user";
+                header("Location: user/dashboard_user.php");
+            }else if($row['role']=="admin"){
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['nama'] = $row['nama'];
+                $_SESSION['level'] = "admin";
+                header("Location: admin/dashboard.php");
+            }
         } else {
             $loginError = "Email atau password salah.";
         }

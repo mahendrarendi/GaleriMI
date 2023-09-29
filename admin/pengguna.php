@@ -60,7 +60,7 @@
                      <a href="pengguna.php" class="list-group-item">Data Pengguna</a>
                      <a href="kategori.php" class="list-group-item">Data Kategori</a>
                   </div>
-                  <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
+                  <a href="../logout.php" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
                </div>
             </div>
             <!-- Slide Bar End -->
@@ -70,6 +70,7 @@
                <div class="mb-3 text-right">
                   <a href="tambah_pengguna.php" class="btn btn-primary">Tambah Data</a>
                </div>
+               <div class="table-responsive"> 
                <table class="table table-striped table-bordered">
                   <thead>
                      <tr>
@@ -98,34 +99,34 @@
                            echo '<td>' . $row["nim"] . '</td>';
                            echo '<td>' . $row["email"] . '</td>';
                            echo '<td class="text-center">
-                     <a href="edit_pengguna.php?id=' . $row['id'] . '" class="btn btn-warning btn-sm">
-                        <i class="fa fa-pencil"></i> Edit
-                     </a>
-                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal' . $row['id'] . '">
-                        <i class="fa fa-trash"></i> Hapus
-                     </button>';
+                                 <a href="edit_pengguna.php?id=' . $row['id'] . '" class="btn btn-warning btn-sm">
+                                    <i class="fa fa-pencil"></i> Edit
+                                 </a>
+                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal' . $row['id'] . '">
+                                    <i class="fa fa-trash"></i> Hapus
+                                 </button>';
                            echo '</tr>';
 
                            // Modal for delete confirmation
                            echo '<div class="modal fade" id="deleteModal' . $row['id'] . '" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel' . $row['id'] . '" aria-hidden="true">
-               <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel' . $row['id'] . '">Konfirmasi Hapus</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                        </button>
-                     </div>
-                     <div class="modal-body">
-                        Apakah Anda yakin ingin menghapus user ini?
-                     </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <a href="hapus_pengguna.php?id=' . $row['id'] . '" class="btn btn-danger">Hapus</a>
-                     </div>
-                  </div>
-               </div>
-            </div>';
+                                 <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                       <div class="modal-header">
+                                          <h5 class="modal-title" id="deleteModalLabel' . $row['id'] . '">Konfirmasi Hapus</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                          </button>
+                                       </div>
+                                       <div class="modal-body">
+                                          Apakah Anda yakin ingin menghapus user ini?
+                                       </div>
+                                       <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                          <a href="hapus_pengguna.php?id=' . $row['id'] . '" class="btn btn-danger">Hapus</a>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>';
 
                            $count++;
                         }
@@ -137,6 +138,7 @@
                      ?>
                   </tbody>
                </table>
+               </div>
          </div>
 
       </div>
