@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mysqli_stmt_execute($stmt)) {
             mysqli_stmt_close($stmt);
             mysqli_close($conn);
-            header("Location: produk.php");
+            header("Location: dashboard_user.php");
             exit();
         } else {
             $error = "Gagal mengupdate produk.";
@@ -132,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <a href="pengguna.php" class="list-group-item">Data Pengguna</a>
                             <a href="kategori.php" class="list-group-item">Data Kategori</a>
                         </div>
-                        <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
+                        <a href="../logout.php" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-sign-out"></i> <span class="d-none d-md-inline">Logout</span></a>
                     </div>
                 </div>
                 <!-- Slide Bar End -->

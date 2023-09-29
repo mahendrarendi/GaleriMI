@@ -21,6 +21,18 @@
    <!-- responsive style -->
    <link href="assets/css/responsive.css" rel="stylesheet" />
    <link rel="shortcut icon" href="assets/img/LOGO.png">
+
+   <style>
+      h5>a {
+         color: #000;
+
+      }
+
+      h5>a:hover {
+         color: #f9e00f;
+
+      }
+   </style>
 </head>
 
 <body>
@@ -126,42 +138,31 @@
             <p>Produk buatan mahasiswa D4 Manajemen Informatika</p>
          </div>
          <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-4">
-               <div class="box">
-                  <div class="img-box">
-                     <img src="assets/img/p1.png" alt="">
+
+            <?php 
+            include("database/config.php");
+
+            $query = "SELECT * FROM products";
+            $result = mysqli_query($conn, $query);
+            while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+
+                  <div class="col-sm-6 col-md-4 col-lg-4">
+                     <div class="box">
+                        <div class="img-box">
+                           <img src="assets/img/produk/" alt="">
+                        </div>
+                        <div class="detail-box">
+                           <h5>
+                              <a href="detail_produk.php?id=<?=$row['product_id']?>"><?php echo $row['nama_produk']; ?></a>
+                           </h5>
+                        </div>
+                     </div>
                   </div>
-                  <div class="detail-box">
-                     <h5>
-                        Mango (Belajar Bahasa Jepang)
-                     </h5>
-                  </div>
-               </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-4">
-               <div class="box">
-                  <div class="img-box">
-                     <img src="assets/img/p2.png" alt="">
-                  </div>
-                  <div class="detail-box">
-                     <h5>
-                        Al Qur'an Apps (Aplikasi Al Qur'an)
-                     </h5>
-                  </div>
-               </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-4">
-               <div class="box">
-                  <div class="img-box">
-                     <img src="assets/img/p3.png" alt="">
-                  </div>
-                  <div class="detail-box">
-                     <h5>
-                        Ringkas-Net (Curahkan Tulisanmu)
-                     </h5>
-                  </div>
-               </div>
-            </div>
+
+            <?php
+            }
+            ?>
          </div>
          <div class="btn-box">
             <a href="produk.php">

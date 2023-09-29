@@ -1157,11 +1157,15 @@ form input[type="checkbox"] {
 #sidebar {
   overflow: hidden;
   z-index: 3;
+  top: 0px;
+  left: 0;
+  background-color: #E0E0E0;
+  padding-top: 20px;
 }
 #sidebar .list-group {
   min-width: 400px;
   background-color: #E0E0E0;
-  min-height: 100vh;
+  min-height: 100vmax;
 }
 #sidebar i {
   margin-right: 6px;
@@ -1285,6 +1289,8 @@ transition-timing-function: ease-out;
   margin: 30px 0px;
   border-radius: 20px;
 }
+
+
 
 /* http://kute-themes.com/html/boutique/html/index.html
 https://template.hasthemes.com/noraure/noraure/index.html

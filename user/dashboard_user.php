@@ -82,6 +82,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['nama'])) {
                <div class="mb-3 text-right">
                   <a href="tambah_user_produk.php" class="btn btn-primary">Tambah Data</a>
                </div>
+               <div class="table-responsive">
                <table class="table table-striped table-bordered">
                   <thead>
                      <tr>
@@ -98,7 +99,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['nama'])) {
                      <?php
                      include("../database/config.php");
 
-                     $query = "SELECT * FROM products LEFT JOIN users ON products.user_id = users.id WHERE products.user_id = $_SESSION[user_id]";
+                     $query = "SELECT * FROM products LEFT JOIN users ON products.nama_pemilik = users.id WHERE products.nama_pemilik = $_SESSION[user_id]";
                      $result = mysqli_query($conn, $query);
 
                      if ($result && mysqli_num_rows($result) > 0) {
@@ -143,13 +144,15 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['nama'])) {
                            $count++;
                         }
                      } else {
-                        echo '<tr><td colspan="6" class="text-center">Tidak ada data user.</td></tr>';
+                        echo '<tr><td colspan="6" class="text-center">Tidak ada data produk.</td></tr>';
                      }
 
                      mysqli_close($conn);
                      ?>
                   </tbody>
                </table>
+               </div>
+               
          </div>
 
       </div>
